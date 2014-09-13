@@ -15,7 +15,7 @@ Histogram of the total number of steps taken each day
 
 ```{r, echo=TRUE, fig.height=5 ,fig.width=6}
 steps <- aggregate(steps ~ date, data1, sum, na.rm = TRUE)
-hist(steps$steps,plot=TRUE, main="Histogram of Total Steps by day")
+hist(steps$steps,plot=TRUE, main="Histogram of Total Steps with NA ignored")
 ##barplot(steps, main="# steps by day", xlab="Date", ylab="Total Steps")
 
 ```
@@ -32,7 +32,7 @@ median(steps$steps)
 
 ```{r, fig.height=5 ,fig.width=6}
 stepsbyinterval <- aggregate(steps ~ interval, data1, mean)
-plot(stepsbyinterval$interval, stepsbyinterval$steps,type="l", main="Total Steps by interval")
+plot(stepsbyinterval$interval, stepsbyinterval$steps,type="l", main="Total Steps by Interval")
 
 ```
 
@@ -72,7 +72,7 @@ for (i in 1:nrow(data2))
 
 ```{r, echo=TRUE, fig.height=5 ,fig.width=6}
 stepsfilled <- aggregate(steps ~ date, data2, sum)
-hist(stepsfilled$steps,plot=TRUE, main="Histogram of Total Steps by day after NA replaced")
+hist(stepsfilled$steps,plot=TRUE, main="Histogram of Total Steps by day NA replaced")
 
 mean(stepsfilled$steps)
 median(stepsfilled$steps)
@@ -93,11 +93,12 @@ data2$day <- ifelse(data2$DOW %in% c("Saturday", "Sunday"), "Weekend","Weekday")
 data2 <- transform(data2, day=factor(day))
 ```
 
-2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
+2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
 
-```{r}
-
+```{r,}
 stepsbyintervalDay <- aggregate(steps ~ interval + day, data2, mean)
 library(lattice)
-xyplot(steps ~ interval | day, data = stepsbyintervalDay, type = "l", aspect=1/2)
+xyplot(steps ~ interval | day, data = stepsbyintervalDay, type = "l", aspect=1/2, main="Weekend and Weekday comparison")
 ```
+
+This is the end.
